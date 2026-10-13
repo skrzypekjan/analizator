@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Analizator wydatków</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+  <h1>Analizator wydatków</h1>
+  <p class="muted">Plik CSV z mBanku jest przetwarzany wyłącznie w Twojej przeglądarce – nic nie jest wysyłane ani zapisywane.</p>
+</header>
+
+<main>
+  <section id="drop" class="drop">
+    <p><strong>Przeciągnij plik CSV tutaj</strong> lub</p>
+    <label class="btn">Wybierz plik<input id="file" type="file" accept=".csv,text/csv" hidden></label>
+    <p id="error" class="error"></p>
+  </section>
+
+  <div id="app" hidden>
+    <section class="toolbar">
+      <label>Okres
+        <select id="month"></select>
+      </label>
+      <label>Próg „za dużo" (% ponad średnią)
+        <input id="threshold" type="number" min="5" max="500" value="30">
+      </label>
+      <button id="reset" class="btn secondary">Wczytaj inny plik</button>
+    </section>
+
+    <section class="kpis" id="kpis"></section>
+
+    <section class="card">
+      <h2>Gdzie wydajesz za dużo?</h2>
+      <div id="insights"></div>
+    </section>
+
+    <section class="card">
+      <h2>Wydatki miesiąc po miesiącu</h2>
+      <div id="trend"></div>
+    </section>
+
+    <div class="grid">
+      <section class="card">
+        <h2>Kategorie</h2>
+        <div id="categories"></div>
+      </section>
+      <section class="card">
+        <h2>Najwięksi odbiorcy</h2>
+        <div id="merchants"></div>
+      </section>
+    </div>
+
+    <section class="card">
+      <h2>Wykluczone z analizy <span class="muted">(nie są wydatkami: lokaty, spłata karty, przelewy własne…)</span></h2>
+      <div id="excl" class="chips"></div>
+    </section>
+
+    <section class="card">
+      <h2>Transakcje</h2>
+      <div class="toolbar">
+        <input id="search" type="search" placeholder="Szukaj w opisie…">
+        <select id="catFilter"></select>
+      </div>
+      <div class="table-wrap"><table id="tx"></table></div>
+    </section>
+  </div>
+</main>
+<script src="app.js"></script>
+</body>
+</html>
