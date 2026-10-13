@@ -54,6 +54,28 @@
     </div>
 
     <section class="card">
+      <h2>Cykliczne opłaty i subskrypcje</h2>
+      <div id="subs"></div>
+    </section>
+
+    <section class="card" id="ai">
+      <h2>Analiza AI <span class="muted">(lokalnie, przez Ollamę – dane nie opuszczają komputera)</span></h2>
+      <div class="toolbar">
+        <label>Adres Ollamy <input id="aiUrl" value="http://localhost:11434"></label>
+        <label>Model <select id="aiModel"></select></label>
+        <button id="aiRefresh" class="btn secondary" style="margin-left:0">Połącz / odśwież modele</button>
+      </div>
+      <p id="aiStatus" class="muted"></p>
+      <div class="toolbar"><button id="aiComment" class="btn">Skomentuj wybrany okres</button></div>
+      <div id="aiOut" class="ai-out"></div>
+      <div class="toolbar chat">
+        <input id="aiQ" type="text" placeholder="Zapytaj o swoje wydatki, np. „Na czym mogę najłatwiej zaoszczędzić?”" style="flex:1;min-width:240px">
+        <button id="aiAsk" class="btn">Zapytaj</button>
+      </div>
+      <details><summary class="muted">Co dokładnie zobaczy model?</summary><pre id="aiCtx" class="ctx"></pre></details>
+    </section>
+
+    <section class="card">
       <h2>Wykluczone z analizy <span class="muted">(nie są wydatkami: lokaty, spłata karty, przelewy własne…)</span></h2>
       <div id="excl" class="chips"></div>
     </section>
@@ -69,5 +91,6 @@
   </div>
 </main>
 <script src="app.js"></script>
+<script src="ai.js"></script>
 </body>
 </html>

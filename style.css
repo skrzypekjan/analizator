@@ -38,3 +38,8 @@ th,td{text-align:left;padding:6px 8px;border-bottom:1px solid var(--line);vertic
 th{position:sticky;top:0;background:#fff}
 td.num,th.num{text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}
 svg text{font-size:11px;fill:var(--muted)}
+.ai-out{white-space:pre-wrap;background:var(--bg);border-radius:8px;padding:12px;min-height:20px;margin-bottom:12px}
+.ai-out:empty{display:none}
+.ai-out .q{font-weight:600;margin-top:8px}
+.ctx{white-space:pre-wrap;font-size:12px;background:var(--bg);padding:8px;border-radius:6px;max-height:300px;overflow:auto}
+.toolbar.chat{margin-bottom:0}

@@ -154,7 +154,35 @@ function render() {
   $('insights').innerHTML = ins.join('');
 
   renderTrend(months, expAll, incAll, sel);
+  const subs = detectSubs(expAll, months);
+  renderSubs(subs);
+  view = { sel, months, exp, expAll, expSum, incSum, prevKey, prevSum, cats, baseline, subs, thr };
   renderTable(sel);
+}
+
+function detectSubs(expAll, months) {
+  const g = new Map();
+  for (const t of expAll) {
+    const k = t.merchant.toLowerCase() + '|' + Math.round(Math.abs(t.amount));
+    if (!g.has(k)) g.set(k, { name: t.merchant, amount: Math.abs(t.amount), cat: t.cat, months: new Set(), last: '' });
+    const o = g.get(k); o.months.add(t.month); if (t.date > o.last) o.last = t.date;
+  }
+  const latest = months[months.length - 1], idx = m => months.indexOf(m);
+  return [...g.values()].filter(o => {
+    if (o.months.size < 3) return false;
+    const ix = [...o.months].map(idx).sort((a, b) => a - b);
+    const span = ix[ix.length - 1] - ix[0] + 1;
+    return o.months.size / span >= 0.7 && idx(latest) - ix[ix.length - 1] <= 1;
+  }).sort((a, b) => b.amount - a.amount);
+}
+
+function renderSubs(subs) {
+  const sum = subs.reduce((s, o) => s + o.amount, 0);
+  $('subs').innerHTML = subs.length
+    ? `<p class="muted">Powtarzające się co miesiąc opłaty o stałej kwocie (min. 3 miesiące). Razem ok. <b>${fmt0(sum)}</b> miesięcznie, czyli ${fmt0(sum * 12)} rocznie.</p>
+       <div class="table-wrap"><table><tr><th>Odbiorca</th><th>Kategoria</th><th class="num">Kwota / mies.</th><th>Miesięcy</th><th>Ostatnio</th></tr>` +
+      subs.map(o => `<tr><td>${esc(o.name)}</td><td>${esc(o.cat)}</td><td class="num">${fmt(o.amount)}</td><td>${o.months.size}</td><td>${o.last}</td></tr>`).join('') + '</table></div>'
+    : '<p class="muted">Nie wykryto cyklicznych opłat.</p>';
 }
 
 function renderTrend(months, expAll, incAll, sel) {
